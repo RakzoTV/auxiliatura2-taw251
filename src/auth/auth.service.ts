@@ -3,11 +3,13 @@ import { UsuarioService } from 'src/usuario/usuario.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly userService: UsuarioService
+        private readonly userService: UsuarioService,
+        private readonly jwtService: JwtService
     ){}
 
     async login(loginDto: LoginDto){
@@ -17,8 +19,18 @@ export class AuthService {
         const isPassValido = await bcrypt.compare(loginDto.password, usuario.password);
         if(!isPassValido) throw new UnauthorizedException("Contraseña Incorrecta");
 
+        const payload = {
+            idUsuario: usuario.idUsuario,
+            email: usuario.email,
+            rol: usuario.rol.nombre
+        };
+
+        const token = await this.jwtService.signAsync(payload);
+
         return {
-            email: usuario.email
+            token: token,
+            email: usuario.email,
+            rol: usuario.rol.nombre
         }
     }
 

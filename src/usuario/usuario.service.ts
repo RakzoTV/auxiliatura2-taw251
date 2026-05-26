@@ -22,7 +22,9 @@ export class UsuarioService {
   }
 
   async findAll() {
-    return await this.usuarioRepo.find();
+    return await this.usuarioRepo.find({
+      relations: {rol: true}
+    });
     //select * from usuario
   }
 
@@ -43,9 +45,10 @@ export class UsuarioService {
   }
 
   async findByEmailLogin(email: string) {
-    const usuario = await this.usuarioRepo.findOneBy({email: email});
-    //select * from usuario where email = email
-    return usuario;
+    return await this.usuarioRepo.findOne({
+      where: { email },
+      relations: { rol: true }
+    });
   }
 
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {

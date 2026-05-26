@@ -1,4 +1,5 @@
-import { Column, DeleteDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Rol } from "src/rol/entities/rol.entity";
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Usuario {
@@ -16,7 +17,11 @@ export class Usuario {
     password: string;
 
     @Column()
-    rol: string;
+    idRol: number;
+
+    @ManyToOne(() => Rol, (rol) => rol.usuarios)
+    @JoinColumn({name: "idRol"})
+    rol: Rol;
 
     @DeleteDateColumn()
     eliminadoEn: Date;
