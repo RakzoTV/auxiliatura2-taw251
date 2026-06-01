@@ -14,11 +14,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
         type: 'mysql',
-        host: 'localhost', //config.get('DB_HOST)
-        port: 3306, //config.get<number>('DB_PORT')
-        username: 'root', //config.get('DB_USERNAME')
-        password: '', //config.get('DB_PASSWORD')
-        database: 'auxorm', //config.get('DB_DATABASE')
+        host: config.get('DB_HOST'), //config.get('DB_HOST)
+        port: config.get<number>('DB_PORT'), //config.get<number>('DB_PORT')
+        username: config.get('DB_USERNAME'), //config.get('DB_USERNAME')
+        password: config.get('DB_PASSWORD'), //config.get('DB_PASSWORD')
+        database: config.get('DB_DATABASE'), //config.get('DB_DATABASE')
         autoLoadEntities: true,
         synchronize: true,
         //dropSchema: true
