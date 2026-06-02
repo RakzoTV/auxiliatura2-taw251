@@ -12,13 +12,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => ({
+      useFactory: async (config: ConfigService) => ({
         type: 'postgres',
         host: config.get('DB_HOST'), //config.get('DB_HOST)
-        port: config.get<number>('DB_PORT'), //config.get<number>('DB_PORT')
-        username: config.get('DB_USERNAME'), //config.get('DB_USERNAME')
-        password: config.get('DB_PASSWORD'), //config.get('DB_PASSWORD')
-        database: config.get('DB_DATABASE'), //config.get('DB_DATABASE')
+        port: config.get<number>('DB_PORT'),
+        username: config.get('DB_USERNAME'),
+        password: config.get('DB_PASSWORD'),
+        database: config.get('DB_DATABASE'),
         autoLoadEntities: true,
         synchronize: true,
         //dropSchema: true
@@ -31,4 +31,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
